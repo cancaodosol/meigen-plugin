@@ -1,0 +1,6 @@
+.meigen-archive .meigen-list { display:flex; flex-wrap:wrap; gap:1rem; }
+.meigen-item { border:1px solid #e0e0e0; padding:1rem; width:100%; box-sizing:border-box; background:#fff; }
+@media(min-width:700px){ .meigen-item { width:48%; } }
+.meigen-bookbox { display:flex; gap:1rem; margin-top:1rem; align-items:flex-start; }
+.meigen-book-thumb img { max-width:120px; height:auto; display:block; }
+.meigen-author-desc { margin-bottom:1rem; color:#333; }
