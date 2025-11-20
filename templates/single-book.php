@@ -6,16 +6,16 @@
     <?php the_content(); ?>
 
     <?php
-    $book = get_post_meta(get_the_ID(), '_qc_quote_book', true);
-    $author = $book ? get_post_meta($book, '_qc_book_author', true) : null;
+    $author = get_post_meta(get_the_ID(), '_qc_book_author', true);
+    $link = get_post_meta(get_the_ID(), '_qc_purchase_link', true);
     ?>
-
-    <?php if ($book): ?>
-        <p>出典：<a href="<?php echo get_permalink($book); ?>"><?php echo get_the_title($book); ?></a></p>
-    <?php endif; ?>
 
     <?php if ($author): ?>
         <p>著者：<a href="<?php echo get_permalink($author); ?>"><?php echo get_the_title($author); ?></a></p>
+    <?php endif; ?>
+
+    <?php if ($link): ?>
+        <p><a href="<?php echo esc_url($link); ?>" target="_blank">購入リンク</a></p>
     <?php endif; ?>
 </div>
 
