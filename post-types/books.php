@@ -12,7 +12,7 @@ function qc_register_books() {
 add_action('init', 'qc_register_books');
 
 function qc_books_columns($columns) {
-    // 既存の列を控えておき、末尾に日付/統計などを回す
+    // 日付/統計列は末尾で付け直すために保持
     $date = $columns['date'] ?? null;
     $stats_key = null;
     foreach (['stats', 'jetpack_stats'] as $key) {
@@ -21,28 +21,42 @@ function qc_books_columns($columns) {
             break;
         }
     }
-
     $stats = $stats_key ? $columns[$stats_key] : null;
 
-    // 末尾にしたい列を一度外す
     unset($columns['date']);
     if ($stats_key) {
         unset($columns[$stats_key]);
     }
 
-    // 固定位置で追加したい列
-    $columns['qc_purchase_link'] = '購入リンク';
-    $columns['qc_book_author'] = '著者';
+    // 並び順: チェックボックス → タイトル → 購入リンク → 著者 → その他 → 統計 → 日付
+    $new = [];
 
-    // 日付/統計列を末尾へ
+    if (isset($columns['cb'])) {
+        $new['cb'] = $columns['cb'];
+        unset($columns['cb']);
+    }
+
+    if (isset($columns['title'])) {
+        $new['title'] = $columns['title'];
+        unset($columns['title']);
+    }
+
+    $new['qc_purchase_link'] = '購入リンク';
+    $new['qc_book_author'] = '著者';
+
+    // 残りの既存列を維持（カテゴリー等がある場合）
+    foreach ($columns as $key => $label) {
+        $new[$key] = $label;
+    }
+
     if ($stats_key && $stats) {
-        $columns[$stats_key] = $stats;
+        $new[$stats_key] = $stats;
     }
     if ($date) {
-        $columns['date'] = $date;
+        $new['date'] = $date;
     }
 
-    return $columns;
+    return $new;
 }
 add_filter('manage_books_posts_columns', 'qc_books_columns');
 
