@@ -65,3 +65,18 @@ add_action('rest_api_init', function () {
     ]);
 
 });
+
+/**
+ * Chrome拡張（chrome-extension://）からのCORSを許可
+ */
+function qc_allow_chrome_extension_cors($value) {
+    $origin = get_http_origin();
+    if ($origin && strpos($origin, 'chrome-extension://') === 0) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+        header('Vary: Origin');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        header('Access-Control-Allow-Headers: Authorization, Content-Type');
+    }
+    return $value;
+}
+add_filter('rest_pre_serve_request', 'qc_allow_chrome_extension_cors', 15);
