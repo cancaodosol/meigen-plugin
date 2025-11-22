@@ -62,6 +62,11 @@ function qc_save_quote($post_id){
         return;
     }
 
+    // 入れ子のsave_post（本の自動作成時など）でループしないよう、実際の投稿タイプを確認
+    if (get_post_type($post_id) !== 'quotes') {
+        return;
+    }
+
     if (!isset($_POST['post_type']) || $_POST['post_type'] !== 'quotes') {
         return;
     }
