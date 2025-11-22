@@ -31,8 +31,8 @@ function qc_books_columns($columns) {
     }
 
     // 固定位置で追加したい列
-    $columns['qc_book_author'] = '著者';
     $columns['qc_purchase_link'] = '購入リンク';
+    $columns['qc_book_author'] = '著者';
 
     // 日付/統計列を末尾へ
     if ($stats_key && $stats) {
