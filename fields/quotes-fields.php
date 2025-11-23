@@ -11,6 +11,7 @@ add_action('add_meta_boxes', 'qc_quote_fields');
 
 function qc_quote_details_html($post) {
     $book = get_post_meta($post->ID, '_qc_quote_book', true);
+    $page = get_post_meta($post->ID, '_qc_quote_page', true);
     $new_book_title = '';
     $new_book_link = '';
     $new_book_author = '';
@@ -61,6 +62,11 @@ function qc_quote_details_html($post) {
     <p style="margin: 0 0 8px 0;">新規の本と一緒に保存され、著者にも自動で紐づきます。</p>
     <label>新しい著者名</label><br>
     <input type="text" name="qc_new_author_name" value="<?php echo esc_attr($new_author_name); ?>" style="width:100%;" placeholder="例：スティーブン・R・コヴィー">
+
+    <hr>
+    <p><strong>名言が掲載されているページ数</strong></p>
+    <label>ページ／備考</label><br>
+    <input type="text" name="qc_quote_page" value="<?php echo esc_attr($page); ?>" style="width:220px;" placeholder="例：123, 序章 p.5 など">
 <?php
 }
 
@@ -138,6 +144,13 @@ function qc_save_quote($post_id){
         update_post_meta($post_id, '_qc_quote_book', $book_to_assign);
     } else {
         delete_post_meta($post_id, '_qc_quote_book');
+    }
+
+    // 名言掲載ページ／備考（空なら削除）
+    if (isset($_POST['qc_quote_page']) && $_POST['qc_quote_page'] !== '') {
+        update_post_meta($post_id, '_qc_quote_page', sanitize_text_field($_POST['qc_quote_page']));
+    } else {
+        delete_post_meta($post_id, '_qc_quote_page');
     }
 }
 add_action('save_post', 'qc_save_quote');
