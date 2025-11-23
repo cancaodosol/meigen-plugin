@@ -14,6 +14,7 @@ function qc_quote_details_html($post) {
     $new_book_title = '';
     $new_book_link = '';
     $new_book_author = '';
+    $new_author_name = '';
 
     wp_nonce_field('qc_save_quote', 'qc_quote_nonce');
 ?>
@@ -54,6 +55,12 @@ function qc_quote_details_html($post) {
             </option>
         <?php endforeach; ?>
     </select>
+
+    <hr>
+    <p><strong>著者が未登録の場合は同時に追加できます</strong></p>
+    <p style="margin: 0 0 8px 0;">新規の本と一緒に保存され、著者にも自動で紐づきます。</p>
+    <label>新しい著者名</label><br>
+    <input type="text" name="qc_new_author_name" value="<?php echo esc_attr($new_author_name); ?>" style="width:100%;" placeholder="例：スティーブン・R・コヴィー">
 <?php
 }
 
@@ -80,9 +87,24 @@ function qc_save_quote($post_id){
     }
 
     $book_to_assign = null;
+    $new_author_id = null;
+    $new_book_requested = !empty($_POST['qc_new_book_title']);
+
+    // 新規著者登録（新規書籍のタイトルがあり、著者名が入っている場合のみ）
+    if ($new_book_requested && !empty($_POST['qc_new_author_name'])) {
+        $new_author_id = wp_insert_post([
+            'post_type'   => 'authors',
+            'post_status' => 'publish',
+            'post_title'  => sanitize_text_field($_POST['qc_new_author_name']),
+        ]);
+
+        if (is_wp_error($new_author_id)) {
+            $new_author_id = null;
+        }
+    }
 
     // 新規書籍登録（タイトルが入っている場合のみ）
-    if (!empty($_POST['qc_new_book_title'])) {
+    if ($new_book_requested) {
         $new_book_id = wp_insert_post([
             'post_type' => 'books',
             'post_status' => 'publish',
@@ -93,8 +115,15 @@ function qc_save_quote($post_id){
             if (!empty($_POST['qc_new_book_link'])) {
                 update_post_meta($new_book_id, '_qc_purchase_link', esc_url_raw($_POST['qc_new_book_link']));
             }
-            if (!empty($_POST['qc_new_book_author'])) {
-                update_post_meta($new_book_id, '_qc_book_author', intval($_POST['qc_new_book_author']));
+            $author_to_assign = null;
+            if ($new_author_id) {
+                $author_to_assign = $new_author_id;
+            } elseif (!empty($_POST['qc_new_book_author'])) {
+                $author_to_assign = intval($_POST['qc_new_book_author']);
+            }
+
+            if ($author_to_assign) {
+                update_post_meta($new_book_id, '_qc_book_author', $author_to_assign);
             }
             $book_to_assign = $new_book_id;
         }
