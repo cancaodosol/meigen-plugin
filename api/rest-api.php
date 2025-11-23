@@ -3,6 +3,7 @@ function qc_prepare_quote_response($post) {
     $book = get_post_meta($post->ID, '_qc_quote_book', true);
     $author = $book ? get_post_meta($book, '_qc_book_author', true) : null;
     $purchase_link = $book ? get_post_meta($book, '_qc_purchase_link', true) : null;
+    $page = get_post_meta($post->ID, '_qc_quote_page', true);
 
     $book_data = null;
     if ($book) {
@@ -29,6 +30,7 @@ function qc_prepare_quote_response($post) {
         'title' => $post->post_title,
         'content' => wpautop($post->post_content),
         'permalink' => get_permalink($post->ID),
+        'page' => $page !== '' ? $page : null,
         'book' => $book_data,
     ];
 }
