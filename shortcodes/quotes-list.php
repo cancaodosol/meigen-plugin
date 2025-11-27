@@ -30,20 +30,31 @@ function qc_meigen_render_card($post_id)
     ob_start();
 ?>
     <article class="qc-meigen-card">
-        <div class="qc-meigen-quote"><?php echo esc_html($quote_text); ?></div>
         <h3 class="qc-meigen-title"><?php echo esc_html($title); ?></h3>
+        <div class="qc-meigen-quote"><?php echo esc_html($quote_text); ?></div>
         <div class="qc-meigen-meta">
             <?php if ($author_id): ?>
-                <span class="qc-meigen-meta-item">著者：<a href="<?php echo esc_url(get_permalink($author_id)); ?>"><?php echo esc_html(get_the_title($author_id)); ?></a></span>
+                <span class="qc-meigen-meta-item">
+                    <a href="<?php echo esc_url(get_permalink($author_id)); ?>">
+                        <?php echo esc_html(get_the_title($author_id)). " 著"; ?>
+                    </a>
+                </span>
             <?php endif; ?>
             <?php if ($book_id): ?>
-                <span class="qc-meigen-meta-item">出典：<a href="<?php echo esc_url(get_permalink($book_id)); ?>"><?php echo esc_html(get_the_title($book_id)); ?></a></span>
+                <span class="qc-meigen-meta-item">
+                    「
+                        <a href="<?php echo esc_url(get_permalink($book_id)); ?>">
+                            <?php echo esc_html(get_the_title($book_id)); ?>
+                        </a>
+                    」
+                </span>
             <?php endif; ?>
             <?php if ($page): ?>
-                <span class="qc-meigen-meta-item">掲載：<?php echo esc_html($page); ?></span>
+                <span class="qc-meigen-meta-item">
+                    <?php echo esc_html($page); ?>
+                </span>
             <?php endif; ?>
         </div>
-        <a class="qc-meigen-more" href="<?php echo esc_url($permalink); ?>">詳細を見る</a>
     </article>
 <?php
     return ob_get_clean();
