@@ -9,6 +9,7 @@ Author: Your Name
 if (!defined('ABSPATH')) exit;
 
 define('QC_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('QC_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 require_once QC_PLUGIN_PATH . 'post-types/authors.php';
 require_once QC_PLUGIN_PATH . 'post-types/books.php';
@@ -19,6 +20,7 @@ require_once QC_PLUGIN_PATH . 'fields/books-fields.php';
 require_once QC_PLUGIN_PATH . 'fields/quotes-fields.php';
 
 require_once QC_PLUGIN_PATH . 'api/rest-api.php';
+require_once QC_PLUGIN_PATH . 'shortcodes/quotes-list.php';
 
 /**
  * テンプレート読み込み

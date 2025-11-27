@@ -4,3 +4,17 @@
 .meigen-bookbox { display:flex; gap:1rem; margin-top:1rem; align-items:flex-start; }
 .meigen-book-thumb img { max-width:120px; height:auto; display:block; }
 .meigen-author-desc { margin-bottom:1rem; color:#333; }
+.qc-meigen-shortcode { margin:2rem 0; }
+.qc-meigen-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
+@media(min-width:720px){ .qc-meigen-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); } }
+@media(min-width:1040px){ .qc-meigen-grid { grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+.qc-meigen-card { position:relative; padding:1.5rem; border:1px solid #e6e6e6; background:#fff; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.06); display:flex; flex-direction:column; gap:.75rem; transition:transform .2s ease, box-shadow .2s ease; }
+.qc-meigen-card:hover { transform:translateY(-4px); box-shadow:0 10px 32px rgba(0,0,0,.1); }
+.qc-meigen-quote { font-size:1.05rem; line-height:1.6; color:#1c1c1c; }
+.qc-meigen-title { margin:0; font-size:0.95rem; letter-spacing:0.02em; color:#555; }
+.qc-meigen-meta { display:flex; flex-wrap:wrap; gap:.5rem 1rem; font-size:0.9rem; color:#666; }
+.qc-meigen-meta a { color:#1f73b7; text-decoration:none; border-bottom:1px solid transparent; }
+.qc-meigen-meta a:hover { border-color:#1f73b7; }
+.qc-meigen-more { align-self:flex-start; margin-top:auto; font-weight:600; color:#1f73b7; text-decoration:none; padding:.4rem 0; }
+.qc-meigen-more:hover { text-decoration:underline; }
+.qc-meigen-empty { margin:1rem 0; }
