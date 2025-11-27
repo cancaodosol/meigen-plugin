@@ -165,16 +165,12 @@ function qc_meigen_random_shortcode()
 
     ob_start();
 ?>
-    <div class="qc-meigen-shortcode">
-        <div class="qc-meigen-grid">
-            <?php
-            while ($query->have_posts()):
-                $query->the_post();
-            ?>
-                <?php echo qc_meigen_render_card(get_the_ID()); ?>
-            <?php endwhile; ?>
-        </div>
-    </div>
+    <?php
+    while ($query->have_posts()):
+        $query->the_post();
+    ?>
+        <?php echo qc_meigen_render_card(get_the_ID()); ?>
+    <?php endwhile; ?>
 <?php
     wp_reset_postdata();
     return ob_get_clean();
