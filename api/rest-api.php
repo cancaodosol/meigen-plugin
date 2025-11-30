@@ -29,6 +29,7 @@ function qc_prepare_quote_response($post) {
         'id' => $post->ID,
         'title' => $post->post_title,
         'content' => wpautop($post->post_content),
+        'short_content' => wp_trim_words(wp_strip_all_tags(wpautop($post->post_content)), 80, '…'),
         'permalink' => get_permalink($post->ID),
         'page' => $page !== '' ? $page : null,
         'book' => $book_data,
