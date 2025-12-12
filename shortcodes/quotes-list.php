@@ -22,8 +22,8 @@ function qc_meigen_render_card($post_id)
     $book_id = get_post_meta($post_id, '_qc_quote_book', true);
     $author_id = $book_id ? get_post_meta($book_id, '_qc_book_author', true) : null;
     $page = get_post_meta($post_id, '_qc_quote_page', true);
-    $raw_content = strip_shortcodes(get_post_field('post_content', $post_id));
-    $quote_text = wp_trim_words(wp_strip_all_tags($raw_content), 80, '…');
+    $raw_content = get_post_field('post_content', $post_id);
+    $quote_html = apply_filters('the_content', $raw_content);
     $title = get_the_title($post_id);
     $permalink = get_permalink($post_id);
 
@@ -31,7 +31,7 @@ function qc_meigen_render_card($post_id)
 ?>
     <article class="qc-meigen-card">
         <h3 class="qc-meigen-title"><?php echo esc_html($title); ?></h3>
-        <div class="qc-meigen-quote"><?php echo esc_html($quote_text); ?></div>
+        <div class="qc-meigen-quote"><?php echo $quote_html; ?></div>
         <div class="qc-meigen-meta">
             <?php if ($author_id): ?>
                 <span class="qc-meigen-meta-item">
